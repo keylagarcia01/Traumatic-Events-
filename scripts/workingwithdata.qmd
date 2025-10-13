@@ -1,0 +1,52 @@
+---
+title: "workingwithdata"
+format: html
+---
+
+# Introduction
+
+## \*Working with data
+
+#install.packages("descr")
+
+```{r}
+library(descr)
+
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+file_path<-file.path("..","data","data.csv")
+df<-read_csv(file_path)
+head(df)
+```
+
+### **Witnessed a friend have a panic attack**
+
+```{r}
+freq(as.ordered(df$`witnessed a friend have a panic attack`), plot=FALSE)
+```
+
+```{r}
+freq(as.ordered(df$`received patdown from a TSA agent`), plot=FALSE)
+
+```
+
+### **Trauma raped by a family member**
+
+```{r}
+freq(as.ordered(df$`was raped by a family member`), plot=FALSE)
+
+```
+
+### **Trauma by being ignored by a parent**
+
+```{r}
+freq(as.ordered(df$`was ignored by a parent`), plot=FALSE)
+
+```
+
+## \*Data management
