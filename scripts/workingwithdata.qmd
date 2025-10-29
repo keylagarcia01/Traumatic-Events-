@@ -11,10 +11,6 @@ format: html
 
 ```{r}
 library(descr)
-
-```
-
-```{r}
 library(tidyverse)
 ```
 
@@ -30,9 +26,7 @@ head(df)
 freq(as.ordered(df$`witnessed a friend have a panic attack`), plot=FALSE)
 ```
 
-```{r}
-freq(as.ordered(df$`received patdown from a TSA agent`), plot=FALSE)
-
+```         
 ```
 
 ### **Trauma raped by a family member**
@@ -50,3 +44,7 @@ freq(as.ordered(df$`was ignored by a parent`), plot=FALSE)
 ```
 
 ## \*Data management
+
+I began by loading the dataset and checking for missing or inconsistent values. Then I used the (freq) function to examine the distribution of key trauma-related variables, such as witnessing a friend have a panic attack, being raped by a family member, and being ignored by a parent.
+
+The frequency tables show how often participants reported each experience. For example, most responses indicate “No,” suggesting that only a small portion of participants experienced these specific traumas. This helps me understand how common or rare each event is in the dataset.
