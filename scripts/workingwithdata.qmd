@@ -18,7 +18,16 @@ library(tidyverse)
 file_path<-file.path("..","data","data.csv")
 df<-read_csv(file_path)
 head(df)
+
 ```
+
+```{r}
+file_path<-file.path("..","data","codebook.csv")
+codebook<-read_csv(file_path)
+head(codebook)
+```
+
+## \*Data management
 
 ### **Witnessed a friend have a panic attack**
 
@@ -43,8 +52,26 @@ freq(as.ordered(df$`was ignored by a parent`), plot=FALSE)
 
 ```
 
-## \*Data management
+## 
 
 I began by loading the dataset and checking for missing or inconsistent values. Then I used the (freq) function to examine the distribution of key trauma-related variables, such as witnessing a friend have a panic attack, being raped by a family member, and being ignored by a parent.
 
 The frequency tables show how often participants reported each experience. For example, most responses indicate “No,” suggesting that only a small portion of participants experienced these specific traumas. This helps me understand how common or rare each event is in the dataset.
+
+# **\* Univariate Data Visualizations**
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(papaja)
+```
+
+### **Figure 1 Bar Graph**
+
+```{r}
+# univariate graph (categorical variable)
+ggplot(df, aes(x = 'was ignored by a parent')) + geom_bar()+
+ggtitle("Trauma Effects") + facet_wrap(~"gender")
+
+
+```
