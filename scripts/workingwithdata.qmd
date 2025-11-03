@@ -29,6 +29,10 @@ head(codebook)
 
 ## \*Data management
 
+I began by loading the dataset and checking for missing or inconsistent values. Then I used the (freq) function to examine the distribution of key trauma-related variables, such as witnessing a friend have a panic attack, being raped by a family member, and being ignored by a parent.
+
+The frequency tables show how often participants reported each experience. For example, most responses indicate “No,” suggesting that only a small portion of participants experienced these specific traumas. This helps me understand how common or rare each event is in the dataset.
+
 ### **Witnessed a friend have a panic attack**
 
 ```{r}
@@ -54,10 +58,6 @@ freq(as.ordered(df$`was ignored by a parent`), plot=FALSE)
 
 ## 
 
-I began by loading the dataset and checking for missing or inconsistent values. Then I used the (freq) function to examine the distribution of key trauma-related variables, such as witnessing a friend have a panic attack, being raped by a family member, and being ignored by a parent.
-
-The frequency tables show how often participants reported each experience. For example, most responses indicate “No,” suggesting that only a small portion of participants experienced these specific traumas. This helps me understand how common or rare each event is in the dataset.
-
 # **\* Univariate Data Visualizations**
 
 ```{r}
@@ -76,6 +76,8 @@ ggplot(df, aes(x = `was ignored by a parent`)) +
 
 
 ```
+
+Bar graph shows that most participants reported **not** being ignored by a parent, while a smaller portion indicated that they had experienced this form of emotional neglect. This suggests that parental neglect was less common in this sample, but still present enough to represent a meaningful trauma experience among some participants.
 
 ### Figure 2 Raped by How many Participants reported being raped by a family member?
 
@@ -99,4 +101,16 @@ df %>%
 
 The table above shows us how many people answered each category and the percentage.
 
-Figure 3
+### Figure 3 How many participants reported witnessing a friend have a paic attack?
+
+```{r}
+# Bar graph for "witnessed a friend have a panic attack"
+ggplot(df, aes(x = `witnessed a friend have a panic attack`)) +
+  geom_bar(fill = "lightblue") +
+  ggtitle("Witnessed a Friend Have a Panic Attack") +
+  xlab("Response") +
+  ylab("Number of Participants") +
+  theme_minimal()
+```
+
+The bar graph above tells us that only a small percentage of participants witnessed a friend and experiencing a panic attack. Most participants responded "no", its uncommon.
