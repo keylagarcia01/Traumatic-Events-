@@ -66,12 +66,37 @@ library(dplyr)
 library(papaja)
 ```
 
-### **Figure 1 Bar Graph**
+### **Figure 1 Bar Graph Ignored By Parent**
 
 ```{r}
 # univariate graph (categorical variable)
-ggplot(df, aes(x = 'was ignored by a parent')) + geom_bar()+
-ggtitle("Trauma Effects") + facet_wrap(~"gender")
+ggplot(df, aes(x = `was ignored by a parent`)) +
+  geom_bar() +
+  ggtitle("Trauma Effects")
 
 
 ```
+
+### Figure 2 Raped by How many Participants reported being raped by a family member?
+
+```{r}
+# Bar graph for "was raped by a family member"
+ggplot(df, aes(x = `was raped by a family member`)) +
+  geom_bar(fill = "lightcoral") +
+  ggtitle("Reported Trauma: Raped by a Family Member") +
+  xlab("Response") +
+  ylab("Number of Participants") +
+  theme_minimal()
+```
+
+The graph shows that the majority of participants reported not being raped by a family member. Only a small portion indicated “Yes.” It tells us that while this specific trauma was relatively rare among respondents, it represents a severe and sensitive form of trauma that requires careful attention in data interpretation.
+
+```{r}
+df %>%
+  count(`was raped by a family member`) %>%
+  mutate(percent = n / sum(n) * 100)
+```
+
+The table above shows us how many people answered each category and the percentage.
+
+Figure 3
