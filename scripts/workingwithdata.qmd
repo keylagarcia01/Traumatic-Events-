@@ -29,9 +29,9 @@ head(codebook)
 
 ## \*Data management
 
-I began by loading the dataset and checking for missing or inconsistent values. Then I used the (freq) function to examine the distribution of key trauma-related variables, such as witnessing a friend have a panic attack, being raped by a family member, and being ignored by a parent.
+At the beginning of this analysis, I loaded all necessary libraries (tidyverse, descr, and ggplot2). I then imported the dataset and reviewed the codebook to understand how each variable was structured and rated.
 
-The frequency tables show how often participants reported each experience. For example, most responses indicate “No,” suggesting that only a small portion of participants experienced these specific traumas. This helps me understand how common or rare each event is in the dataset.
+The variables I examined were witnessed a friend have a panic attack, was raped by a family member, and was ignored by a parent they do not represent participants’ personal experiences. Instead, they reflect how traumatic participants perceived these events to be on a scale ranging from not traumatic to extremely traumatic. Understanding this clarified that the task involved analyzing trauma perception ratings, rather than reported life events.
 
 ### **Witnessed a friend have a panic attack**
 
@@ -60,10 +60,12 @@ freq(as.ordered(df$`was ignored by a parent`), plot=FALSE)
 
 # **\* Univariate Data Visualizations**
 
+Using the freq() function, I reviewed how often each rating level appeared for the three items. The bar graphs helped visualize these patterns more clearly. Across the variables, most participants rated events like being raped by a family member as extremely traumatic, while experiences such as witnessing a friend have a panic attack were more often rated as moderately or somewhat traumatic. This suggests that participants viewed interpersonal violence as the most distressing form of trauma, followed by observed or emotional traumas.
+
 ```{r}
 library(ggplot2)
 library(dplyr)
-library(papaja)
+library(papaja) 
 ```
 
 ### **Figure 1 Bar Graph Ignored By Parent**
@@ -71,13 +73,16 @@ library(papaja)
 ```{r}
 # univariate graph (categorical variable)
 ggplot(df, aes(x = `was ignored by a parent`)) +
-  geom_bar() +
-  ggtitle("Trauma Effects")
+  geom_bar(fill = "skyblue") +
+  ggtitle("Trauma Rating: Was Ignored by a Parent") +
+  xlab("Trauma Rating (Not → Extremely Traumatic)") +
+  ylab("Number of Participants") +
+  theme_minimal()
 
 
 ```
 
-Bar graph shows that most participants reported **not** being ignored by a parent, while a smaller portion indicated that they had experienced this form of emotional neglect. This suggests that parental neglect was less common in this sample, but still present enough to represent a meaningful trauma experience among some participants.
+Distribution of participants’ trauma ratings for “Was ignored by a parent.”Participants’ ratings showed more variation, but the majority viewed this as somewhat traumatic or moderately traumatic*.* It shows us that emotional neglect is recognized as harmful, though not always perceived as overwhelmingly traumatic.
 
 ### Figure 2 Raped by How many Participants reported being raped by a family member?
 
@@ -91,7 +96,7 @@ ggplot(df, aes(x = `was raped by a family member`)) +
   theme_minimal()
 ```
 
-The graph shows that the majority of participants reported not being raped by a family member. Only a small portion indicated “Yes.” It tells us that while this specific trauma was relatively rare among respondents, it represents a severe and sensitive form of trauma that requires careful attention in data interpretation.
+Distribution of participants’ trauma ratings for “Was raped by a family member." Ratings were heavily concentrated at the extremely traumatic end of the scale, indicating that participants consistently viewed this experience as one of the most distressing and severe forms of trauma.
 
 ```{r}
 df %>%
@@ -113,4 +118,60 @@ ggplot(df, aes(x = `witnessed a friend have a panic attack`)) +
   theme_minimal()
 ```
 
-The bar graph above tells us that only a small percentage of participants witnessed a friend and experiencing a panic attack. Most participants responded "no", its uncommon.
+Distribution of participants’ trauma ratings for “Witnessed a friend have a panic attack.”\
+The majority of participants rated this event as moderately traumatic or somewhat traumatic, suggesting that while distressing, it was perceived as less severe compared to other trauma types.
+
+## \*Bivariate Data
+
+```{r}
+library(tidyverse)
+
+# Make sure the trauma rating is numeric
+df$`was ignored by a parent` <- as.numeric(df$`was ignored by a parent`)
+
+# Keep only rows with both Age and the trauma rating
+df_bi1 <- df %>%
+  filter(!is.na(Age),
+         !is.na(`was ignored by a parent`))
+
+nrow(df_bi1)   # just to see how many cases you have
+
+```
+
+#### Graph 1 Association Between Age and Perceived Trauma of Being Ignored by a parent 
+
+```{r}
+ggplot(df_bi1, aes(x = Age,
+                   y = `was ignored by a parent`)) +
+  geom_jitter(width = 0.3, height = 0.1, alpha = 0.6, color = "steelblue") +
+  geom_smooth(method = "lm", se = FALSE, color = "darkred") +
+  ggtitle("Association Between Age and Perceived Trauma\nof Being Ignored by a Parent") +
+  xlab("Age (years)") +
+  ylab("Trauma Rating: Was Ignored by a Parent") +
+  theme_minimal()
+
+```
+
+This scatterplot shows the relationship between age and perceived trauma of being ignored by a parent. The points are somewhat scattered, and the regression line is fairly flat, suggesting that age is not strongly related to how traumatic participants view this experience. Overall, younger and older participants gave similar trauma ratings.
+
+#### Graph 2 Same relationship by gender
+
+```{r}
+# Keep only rows with Age, trauma rating, and Gender
+df_bi2 <- df_bi1 %>%
+  filter(!is.na(Gender)) %>%
+  mutate(Gender = factor(Gender))
+
+ggplot(df_bi2, aes(x = Age,
+                   y = `was ignored by a parent`,
+                   color = Gender)) +
+  geom_jitter(width = 0.3, height = 0.1, alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  ggtitle("Association Between Age and Perceived Trauma of Being Ignored by a Parent\nby Gender") +
+  xlab("Age (years)") +
+  ylab("Trauma Rating: Was Ignored by a Parent") +
+  theme_minimal()
+
+```
+
+This scatterplot shows the same relationship between age and perceived trauma of being ignored by a parent, separated by gender. The regression lines for each gender are similar and mostly flat, indicating that the association between age and trauma ratings does not differ much between genders. Both men and women tend to rate this experience as moderately traumatic across the age range.
