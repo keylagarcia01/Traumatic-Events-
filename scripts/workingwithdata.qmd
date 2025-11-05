@@ -138,7 +138,7 @@ nrow(df_bi1)   # just to see how many cases you have
 
 ```
 
-#### Graph 1 Association Between Age and Perceived Trauma of Being Ignored by a parent 
+#### Graph 1 Association Between Age and Perceived Trauma of Being Ignored by a parent
 
 ```{r}
 ggplot(df_bi1, aes(x = Age,
@@ -175,3 +175,40 @@ ggplot(df_bi2, aes(x = Age,
 ```
 
 This scatterplot shows the same relationship between age and perceived trauma of being ignored by a parent, separated by gender. The regression lines for each gender are similar and mostly flat, indicating that the association between age and trauma ratings does not differ much between genders. Both men and women tend to rate this experience as moderately traumatic across the age range.
+
+## \*Hypothesis
+
+There is no relationship between age and the perceived trauma of being ignored by a parent. There is a relationship between age and the perceived trauma of being ignored by a parent.
+
+```{r}
+library(tidyverse)
+
+# Check the variables first (optional but helpful)
+str(df$Age)
+str(df$`was ignored by a parent`)
+
+# Make sure Age is numeric
+df$Age <- as.numeric(df$Age)
+
+# Make sure the trauma rating is numeric
+df$`was ignored by a parent` <- as.numeric(df$`was ignored by a parent`)
+
+# Keep only rows with both values present
+df_cor <- df %>%
+  filter(!is.na(Age),
+         !is.na(`was ignored by a parent`))
+
+nrow(df_cor)   # Just to see how many valid cases you have
+```
+
+```{r}
+# Pearson correlation between Age and trauma rating
+cor.test(
+  df_cor$Age,
+  df_cor$`was ignored by a parent`,
+  method = "pearson"
+)
+
+```
+
+This testes my hypothesis: Is there an association between age and how traumatic participants rate being ignored by a parent?
